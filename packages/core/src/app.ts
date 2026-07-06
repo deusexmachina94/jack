@@ -9,6 +9,8 @@ import { termsRoutes } from './modules/terms/index.js';
 import { verifyRoutes, VerifyService } from './modules/verify/index.js';
 import { tokenRoutes, TokenService } from './modules/tokens/index.js';
 import { auditRoutes } from './modules/audit/index.js';
+import { certificateRoutes } from './modules/certificates/index.js';
+import { billingRoutes } from './modules/billing/index.js';
 
 export interface AppDeps {
   db: Db;
@@ -44,6 +46,8 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
   await app.register(verifyRoutes({ verifyService, keyProvider: deps.keyProvider }));
   await app.register(tokenRoutes({ db: deps.db, tokenService }));
   await app.register(auditRoutes({ db: deps.db, keyProvider: deps.keyProvider }));
+  await app.register(certificateRoutes({ db: deps.db, keyProvider: deps.keyProvider }));
+  await app.register(billingRoutes({ db: deps.db }));
 
   return app;
 }

@@ -10,12 +10,15 @@ This is a monorepo built in phases. **`docs/SPEC.md` is the source of truth** fo
 data model, API surface, key hierarchy, and phase plan; **`CLAUDE.md`** holds the
 standing engineering rules every contributor (human or agent) must follow.
 
-> **Status: Phases 1–2 implemented.** The full licensing spine works end-to-end and is
-> tested: publisher registration → DNS-TXT domain verification → RSL terms ingestion
-> (immutable) → `GET /v1/verify` → ES256 access tokens → hash-chained audit log with
-> Merkle transparency anchors → offline validation middleware → independent `brip-cli
-> audit verify`. Phase 3 (certificates + regulator export) and Phase 4 (metering + Stripe
-> Connect) are next. `docs/SPEC.md` is a working spec derived from the Prompt Pack.
+> **Status: all phases (1a–4) implemented and tested (39 tests).** End-to-end:
+> publisher registration → DNS-TXT domain verification → immutable RSL terms ingestion →
+> `GET /v1/verify` → ES256 access tokens → hash-chained audit log with signed Merkle
+> transparency anchors → offline validation middleware → independent `brip-cli audit
+> verify` → signed provenance certificates + regulator export bundle → idempotent usage
+> metering with a Stripe Connect settlement port. The two production adapters that need
+> live external services — `KmsKeyProvider` and `StripeSettlementProvider` — are
+> interface-complete stubs to be wired at deploy. `docs/SPEC.md` is a working spec
+> derived from the Prompt Pack.
 
 ## Layout
 

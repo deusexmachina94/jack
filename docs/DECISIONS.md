@@ -8,6 +8,31 @@ Newest entries at the top.
 
 ---
 
+## 2026-07-06 — Phases 3 & 4 implemented
+
+- **Certificates (3):** `POST /v1/certificates` issues a signed (ES256 JWS) provenance
+  certificate binding consumer/domain/termsHash/period/eventCount; `GET
+  /v1/transparency/verify/:certId` verifies it against the JWKS. Added a `certificates`
+  table (migration 0001).
+- **Regulator export (3):** `GET /v1/certificates/:certId/export` returns a zip (via
+  `fflate`) containing the certificate, JWKS, anchors, each relevant audit entry + its
+  Merkle inclusion proof, a manifest, and a README written for a Big-4 auditor. The
+  export anchors any pending entries first so every entry has a proof. A test unzips the
+  bundle and re-verifies an inclusion proof with its own SHA-256.
+- **Metering (4):** `aggregateUsage(window)` groups access events per (domain, consumer),
+  prices them by the domain's current terms into **integer minor units**, and upserts
+  `usage_periods` keyed by (domain, consumer, period) — idempotent, and never rewrites an
+  `invoiced` period (retried nightly job can't double-bill). `POST /v1/events` records
+  reported accesses (the middleware's fire-and-forget target).
+- **Settlement (4):** `SettlementProvider` port with `applicationFee` (bps → minor units)
+  and a `StripeSettlementProvider` stub (throws NotImplemented, like KmsKeyProvider) —
+  live Stripe wiring is a deploy concern needing keys/stripe-mock, deliberately deferred.
+  No BRIP-held balances exist in the schema.
+- **Verified:** 39 tests green (core 28, middleware 6, cli 5). All eight phases (1a–4) now
+  have working, tested implementations.
+
+---
+
 ## 2026-07-06 — Phases 1a–2c implemented
 
 - **Spec:** `docs/SPEC.md` was authored from the Prompt Pack (marked as derived) so the

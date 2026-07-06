@@ -78,3 +78,8 @@ export async function getDomainByName(db: Db, domain: string): Promise<Domain | 
   const [row] = await db.select().from(domains).where(eq(domains.domain, domain.toLowerCase()));
   return row;
 }
+
+export async function getDomainById(db: Db, id: string): Promise<Domain | undefined> {
+  const [row] = await db.select().from(domains).where(eq(domains.id, id));
+  return row;
+}

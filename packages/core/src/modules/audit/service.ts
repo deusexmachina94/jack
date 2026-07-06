@@ -78,6 +78,11 @@ export class AuditLog implements Auditor {
     return anchor!;
   }
 
+  /** All entries in chain order — used by the regulator export bundle. */
+  async listEntries(): Promise<AuditEntry[]> {
+    return this.db.select().from(auditEntries).orderBy(asc(auditEntries.seq));
+  }
+
   async listAnchors(limit = 50): Promise<Anchor[]> {
     return this.db.select().from(transparencyAnchors)
       .orderBy(desc(transparencyAnchors.toSeq)).limit(limit);

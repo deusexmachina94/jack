@@ -91,6 +91,20 @@ export const transparencyAnchors = pgTable('transparency_anchors', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
+// ── certificates ──────────────────────────────────────────────────────────────
+export const certificates = pgTable('certificates', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  consumerId: text('consumer_id').notNull(),
+  domainId: uuid('domain_id').notNull().references(() => domains.id),
+  termsId: uuid('terms_id').notNull().references(() => licenseTerms.id),
+  termsHash: text('terms_hash').notNull(),
+  periodStart: timestamp('period_start', { withTimezone: true }).notNull(),
+  periodEnd: timestamp('period_end', { withTimezone: true }).notNull(),
+  eventCount: integer('event_count').notNull().default(0),
+  jws: text('jws').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
 // ── billing ───────────────────────────────────────────────────────────────────
 export const accessEvents = pgTable('access_events', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -125,4 +139,5 @@ export type DbSchema = {
   transparencyAnchors: typeof transparencyAnchors;
   accessEvents: typeof accessEvents;
   usagePeriods: typeof usagePeriods;
+  certificates: typeof certificates;
 };
