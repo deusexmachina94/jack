@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BRIP — Business Readable Information Protocol</title>
+<style>
+  :root{--bg:#f4f4f5;--fg:#18181b;--muted:#71717a;--accent:#4f46e5;--card:#fff;--border:#e4e4e7}
+  @media (prefers-color-scheme:dark){:root{--bg:#0c0c0d;--fg:#e7e7ea;--muted:#8a8a94;--card:#161618;--border:#2a2a2e}}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+  .wrap{max-width:720px;margin:0 auto;padding:48px 20px 80px}
+  h1{font-size:30px;margin:0 0 6px;letter-spacing:-.02em}
+  .tag{color:var(--muted);margin:0 0 28px;line-height:1.5}
+  .tag b{color:var(--fg)}
+  form{display:flex;gap:10px;margin-bottom:12px}
+  input{flex:1;padding:13px 15px;font-size:16px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--fg)}
+  input:focus{outline:2px solid var(--accent);border-color:transparent}
+  button{padding:0 22px;font-size:15px;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:12px;cursor:pointer}
+  button:disabled{opacity:.55;cursor:progress}
+  .examples{font-size:13px;color:var(--muted);margin-bottom:32px}
+  .examples a{color:var(--accent);text-decoration:none;margin-right:12px;cursor:pointer}
+  .status{color:var(--muted);font-size:14px;margin:20px 0}
+  .err{color:#dc2626}
+  .tabs{display:flex;gap:6px;margin:28px 0 14px}
+  .tabs button{background:transparent;color:var(--muted);border:1px solid var(--border);padding:6px 14px;font-size:13px;font-weight:500}
+  .tabs button.active{color:#fff;background:var(--accent);border-color:transparent}
+  #card-view{min-height:40px}
+  pre{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;overflow:auto;font-size:12.5px;line-height:1.5}
+  .hidden{display:none}
+  footer{margin-top:60px;color:var(--muted);font-size:13px;line-height:1.6}
+  footer code{background:var(--card);padding:2px 6px;border-radius:5px;border:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>BRIP</h1>
+  <p class="tag">The <b>Business Readable Information Protocol</b>. Point it at any public website — it scans the page, extracts the facts, and renders an <b>adaptive profile</b> that shows only the information the site actually publishes.</p>
+
+  <form id="f">
+    <input id="url" name="url" placeholder="yourclient.com" autocomplete="off" spellcheck="false" required>
+    <button id="go" type="submit">Scan</button>
+  </form>
+  <div class="examples">
+    Try:
+    <a data-ex="https://www.anthropic.com">anthropic.com</a>
+    <a data-ex="https://nodejs.org">nodejs.org</a>
+    <a data-ex="https://stripe.com">stripe.com</a>
+  </div>
+
+  <div id="status" class="status hidden"></div>
+
+  <div id="result" class="hidden">
+    <div class="tabs">
+      <button data-tab="card" class="active">Adaptive card</button>
+      <button data-tab="json">BRIP document</button>
+    </div>
+    <div id="card-tab"><div id="card-view"></div></div>
+    <div id="json-tab" class="hidden"><pre id="json-view"></pre></div>
+  </div>
+
+  <footer>
+    Same document, many clients. Fetch it yourself:<br>
+    <code>curl -s "/scan?url=example.com"</code> &nbsp;·&nbsp;
+    <code>POST /scan {"url":"..."}</code> &nbsp;·&nbsp;
+    <code>GET /.well-known/brip.json</code><br>
+    Spec: <code>/spec/schema.json</code>
+  </footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const form = $('f'), input = $('url'), go = $('go');
+const statusEl = $('status'), result = $('result');
+const cardView = $('card-view'), jsonView = $('json-view');
+let cssInjected = false;
+
+function setStatus(msg, isErr) {
+  statusEl.textContent = msg;
+  statusEl.className = 'status' + (isErr ? ' err' : '') + (msg ? '' : ' hidden');
+}
+
+async function scan(url) {
+  go.disabled = true;
+  result.classList.add('hidden');
+  setStatus('Scanning ' + url + ' …');
+  try {
+    const res = await fetch('/scan?format=json&url=' + encodeURIComponent(url));
+    const doc = await res.json();
+    if (doc.error) throw new Error(doc.error);
+    render(doc, url);
+    setStatus('');
+  } catch (e) {
+    setStatus('Could not scan that site: ' + e.message, true);
+  } finally {
+    go.disabled = false;
+  }
+}
+
+async function render(doc, url) {
+  jsonView.textContent = JSON.stringify(doc, null, 2);
+  // Fetch the server-rendered adaptive card so the client mirrors the reference renderer.
+  const cardRes = await fetch('/scan?format=card&url=' + encodeURIComponent(url));
+  cardView.innerHTML = await cardRes.text();
+  result.classList.remove('hidden');
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (input.value.trim()) scan(input.value.trim());
+});
+document.querySelectorAll('[data-ex]').forEach((a) =>
+  a.addEventListener('click', () => { input.value = a.dataset.ex; scan(a.dataset.ex); }));
+document.querySelectorAll('.tabs button').forEach((b) =>
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach((x) => x.classList.remove('active'));
+    b.classList.add('active');
+    const isCard = b.dataset.tab === 'card';
+    $('card-tab').classList.toggle('hidden', !isCard);
+    $('json-tab').classList.toggle('hidden', isCard);
+  }));
+</script>
+</body>
+</html>

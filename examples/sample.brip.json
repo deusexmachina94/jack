@@ -1,0 +1,117 @@
+{
+  "brip": "0.1",
+  "generatedAt": "2026-07-06T07:40:07.002Z",
+  "source": {
+    "url": "https://bluefox.example",
+    "fetchedAt": "2026-07-06T07:40:07.001Z",
+    "pages": [
+      "https://bluefox.example"
+    ],
+    "signals": [
+      "json-ld:org",
+      "opengraph",
+      "meta",
+      "mailto",
+      "tel"
+    ]
+  },
+  "confidence": 1,
+  "organization": {
+    "name": "Blue Fox Coffee",
+    "legalName": "Blue Fox Coffee LLC",
+    "description": "Specialty coffee roastery and cafe.",
+    "url": "https://bluefox.example/",
+    "type": "LocalBusiness",
+    "logo": "https://bluefox.example/logo.svg",
+    "sameAs": [
+      "https://instagram.com/bluefoxcoffee",
+      "https://x.com/bluefoxcoffee"
+    ]
+  },
+  "contact": {
+    "emails": [
+      "hello@bluefox.example"
+    ],
+    "phones": [
+      "+1 503-555-0142"
+    ],
+    "addresses": [
+      {
+        "streetAddress": "42 Alder St",
+        "locality": "Portland",
+        "region": "OR",
+        "postalCode": "97205",
+        "country": "US"
+      }
+    ]
+  },
+  "offerings": [
+    {
+      "name": "Ethiopia Yirgacheffe",
+      "description": "Bright, floral single origin.",
+      "price": "USD 19.00",
+      "url": ""
+    }
+  ],
+  "hours": [
+    {
+      "day": "monday",
+      "opens": "07:00",
+      "closes": "18:00"
+    },
+    {
+      "day": "tuesday",
+      "opens": "07:00",
+      "closes": "18:00"
+    },
+    {
+      "day": "wednesday",
+      "opens": "07:00",
+      "closes": "18:00"
+    },
+    {
+      "day": "thursday",
+      "opens": "07:00",
+      "closes": "18:00"
+    },
+    {
+      "day": "friday",
+      "opens": "07:00",
+      "closes": "18:00"
+    },
+    {
+      "day": "saturday",
+      "opens": "08:00",
+      "closes": "16:00"
+    },
+    {
+      "day": "sunday",
+      "opens": "08:00",
+      "closes": "16:00"
+    }
+  ],
+  "content": {
+    "summary": "Blue Fox Coffee is a specialty roastery and cafe in Portland serving single-origin espresso and pour-over.",
+    "keywords": [
+      "coffee",
+      "roastery",
+      "espresso",
+      "portland"
+    ],
+    "language": "en",
+    "headline": "Roasted in small batches, poured with care"
+  },
+  "media": {
+    "socialImage": "https://bluefox.example/img/social.png",
+    "logo": "https://bluefox.example/favicon.png"
+  },
+  "meta": {
+    "title": "Blue Fox Coffee — Specialty Roastery",
+    "og": {
+      "site_name": "Blue Fox Coffee",
+      "title": "Blue Fox Coffee — Specialty Roastery",
+      "image": "/img/social.png"
+    },
+    "description": "Blue Fox Coffee is a specialty roastery and cafe in Portland serving single-origin espresso and pour-over."
+  }
+}
