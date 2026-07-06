@@ -11,6 +11,7 @@ import { tokenRoutes, TokenService } from './modules/tokens/index.js';
 import { auditRoutes } from './modules/audit/index.js';
 import { certificateRoutes } from './modules/certificates/index.js';
 import { billingRoutes } from './modules/billing/index.js';
+import { demoRoutes } from './demo.js';
 
 export interface AppDeps {
   db: Db;
@@ -37,6 +38,7 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
   });
 
   app.get('/health', async () => ({ status: 'ok', service: 'brip-core' }));
+  await app.register(demoRoutes());
 
   const verifyService = new VerifyService(deps.db);
   const tokenService = new TokenService(deps.db, deps.keyProvider, deps.auditor, deps.issuer);

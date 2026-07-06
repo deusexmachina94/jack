@@ -1,0 +1,27 @@
+# Render blueprint — one-click deploy of BRIP core + a managed Postgres.
+# In Render: New → Blueprint → point at this repo. Everything below is provisioned
+# and wired automatically.
+services:
+  - type: web
+    name: brip
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: SEED_ON_BOOT
+        value: "true"          # load the NZZ demo publisher on first boot
+      - key: DATABASE_SSL
+        value: require          # Render Postgres requires TLS
+      - key: BRIP_ISSUER
+        value: https://brip.dev
+      - key: DATABASE_URL
+        fromDatabase:
+          name: brip-db
+          property: connectionString
+
+databases:
+  - name: brip-db
+    plan: free
+    databaseName: brip
+    user: brip

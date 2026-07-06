@@ -8,6 +8,24 @@ Newest entries at the top.
 
 ---
 
+## 2026-07-06 — Public deployability
+
+- **One-image deploy:** added a multi-stage `Dockerfile`. On boot the container applies
+  migrations (`RUN_MIGRATIONS`, via a runtime `drizzle-orm/postgres-js` migrator so prod
+  needs no dev toolchain) and optionally seeds the NZZ demo (`SEED_ON_BOOT`) — both
+  idempotent — so a fresh deploy is immediately usable with no manual steps.
+- **Interactive demo at `/`:** core now serves a small self-contained HTML page that calls
+  its own `/v1/verify`, so a public URL is explorable in a browser, not just via curl.
+- **Hosted Postgres:** `makeDb` enables TLS when `DATABASE_SSL=require` or the URL carries
+  `sslmode=require` (Render/Railway/Fly/Supabase all require it).
+- **Blueprints:** `render.yaml` provisions the web service + a managed Postgres wired
+  together (one-click); `DEPLOY.md` covers Render/Railway/Fly/any-Docker/local.
+- **Verified:** 41 tests green (core 30). Frozen-lockfile install confirmed in sync (the
+  image's install step). Could not run `docker build` in the sandbox (no daemon), but the
+  install and `tsc` build steps it depends on are both verified.
+
+---
+
 ## 2026-07-06 — Phases 3 & 4 implemented
 
 - **Certificates (3):** `POST /v1/certificates` issues a signed (ES256 JWS) provenance
