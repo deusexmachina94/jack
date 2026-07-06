@@ -1,28 +1,22 @@
 {
   "name": "brip",
-  "version": "0.1.0",
-  "description": "BRIP — Business Readable Information Protocol. An open standard + reference implementation for turning any public website into a structured, adaptive business profile.",
+  "version": "0.0.0",
+  "private": true,
+  "description": "BRIP — verification and settlement layer for AI content licensing (monorepo root).",
   "type": "module",
-  "license": "MIT",
-  "bin": {
-    "brip": "src/cli.js"
-  },
-  "scripts": {
-    "start": "node src/server.js",
-    "scan": "node src/cli.js",
-    "test": "node --test"
-  },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
-  "keywords": [
-    "brip",
-    "protocol",
-    "open-standard",
-    "website",
-    "scraper",
-    "structured-data",
-    "schema.org",
-    "business-profile"
-  ]
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "dev:core": "pnpm --filter @brip/core dev"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
 }

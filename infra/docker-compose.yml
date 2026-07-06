@@ -1,0 +1,36 @@
+name: brip-dev
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: brip
+      POSTGRES_PASSWORD: brip
+      POSTGRES_DB: brip
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U brip"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Object storage for raw RSL documents / export bundles (S3-compatible).
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: brip
+      MINIO_ROOT_PASSWORD: brip-dev-secret
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # console
+    volumes:
+      - ./data/minio:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 10

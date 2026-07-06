@@ -1,0 +1,28 @@
+{
+  "name": "brip",
+  "version": "0.1.0",
+  "description": "BRIP — Business Readable Information Protocol. An open standard + reference implementation for turning any public website into a structured, adaptive business profile.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "brip": "src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "scan": "node src/cli.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "brip",
+    "protocol",
+    "open-standard",
+    "website",
+    "scraper",
+    "structured-data",
+    "schema.org",
+    "business-profile"
+  ]
+}

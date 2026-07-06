@@ -1,0 +1,21 @@
+{
+  "name": "@brip/middleware-node",
+  "version": "0.0.0",
+  "description": "Offline BRIP access-token validation middleware for Node (Fastify/Express).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}

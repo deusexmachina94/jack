@@ -1,0 +1,24 @@
+{
+  "name": "@brip/cli",
+  "version": "0.0.0",
+  "description": "brip-cli — command-line tools for the BRIP verification and settlement layer.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "brip-cli": "dist/index.js"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}
