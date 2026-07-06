@@ -10,8 +10,12 @@ This is a monorepo built in phases. **`docs/SPEC.md` is the source of truth** fo
 data model, API surface, key hierarchy, and phase plan; **`CLAUDE.md`** holds the
 standing engineering rules every contributor (human or agent) must follow.
 
-> **Status: bootstrap.** The workspace, tooling, and package skeletons are in place.
-> No modules are implemented yet — Phase 1a begins once `docs/SPEC.md` is populated.
+> **Status: Phases 1–2 implemented.** The full licensing spine works end-to-end and is
+> tested: publisher registration → DNS-TXT domain verification → RSL terms ingestion
+> (immutable) → `GET /v1/verify` → ES256 access tokens → hash-chained audit log with
+> Merkle transparency anchors → offline validation middleware → independent `brip-cli
+> audit verify`. Phase 3 (certificates + regulator export) and Phase 4 (metering + Stripe
+> Connect) are next. `docs/SPEC.md` is a working spec derived from the Prompt Pack.
 
 ## Layout
 

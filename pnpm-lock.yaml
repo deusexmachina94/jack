@@ -34,9 +34,15 @@ importers:
     dependencies:
       drizzle-orm:
         specifier: ^0.38.3
-        version: 0.38.4(postgres@3.4.9)
+        version: 0.38.4(@electric-sql/pglite@0.2.17)(postgres@3.4.9)
+      fast-xml-parser:
+        specifier: ^4.5.1
+        version: 4.5.7
       fastify:
         specifier: ^5.2.0
+        version: 5.10.0
+      jose:
+        specifier: ^5.9.6
         version: 5.10.0
       postgres:
         specifier: ^3.4.5
@@ -45,6 +51,9 @@ importers:
         specifier: ^3.24.1
         version: 3.25.76
     devDependencies:
+      '@electric-sql/pglite':
+        specifier: ^0.2.17
+        version: 0.2.17
       '@types/node':
         specifier: ^22.10.5
         version: 22.20.0
@@ -62,6 +71,10 @@ importers:
         version: 2.1.9(@types/node@22.20.0)
 
   packages/middleware-node:
+    dependencies:
+      jose:
+        specifier: ^5.9.6
+        version: 5.10.0
     devDependencies:
       '@types/node':
         specifier: ^22.10.5
@@ -77,6 +90,9 @@ packages:
 
   '@drizzle-team/brocli@0.10.2':
     resolution: {integrity: sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w==}
+
+  '@electric-sql/pglite@0.2.17':
+    resolution: {integrity: sha512-qEpKRT2oUaWDH6tjRxLHjdzMqRUGYDnGZlKrnL4dJ77JVMcP2Hpo3NYnOSPKdZdeec57B6QPprCUFg0picx5Pw==}
 
   '@esbuild-kit/core-utils@3.3.2':
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
@@ -1061,6 +1077,10 @@ packages:
   fast-uri@3.1.3:
     resolution: {integrity: sha512-i70LwGWUduXqzicKXWshooq+sWL1K3WUU5rKZNG/0i3a1OSoX3HqhH5WbWwTmqWfor4urUakGPiRQcleRZTwOg==}
 
+  fast-xml-parser@4.5.7:
+    resolution: {integrity: sha512-a6Qh1RMCNbSrU1+sAyAAZH3rTe+OaWJbNZIq0S+ifZciUUOQtlVxBJwoTUE2bYhysmG/RYyI5WJFIKdBahJdrQ==}
+    hasBin: true
+
   fastify@5.10.0:
     resolution: {integrity: sha512-A9L0ziuWGQHgEEVgF3davQ9vbD93IuX+lo2IsxapQmu5b/Y/ynn9m9K5JHt9dvyJXOFc5iN0Zk5GHEOqnzhWjg==}
 
@@ -1091,6 +1111,9 @@ packages:
   isexe@3.1.5:
     resolution: {integrity: sha512-6B3tLtFqtQS4ekarvLVMZ+X+VlvQekbe4taUkf/rhVO3d/h0M2rfARm/pXLcPEsjjMsFgrFgSrhQIxcSVrBz8w==}
     engines: {node: '>=18'}
+
+  jose@5.10.0:
+    resolution: {integrity: sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==}
 
   json-schema-ref-resolver@3.0.0:
     resolution: {integrity: sha512-hOrZIVL5jyYFjzk7+y7n5JDzGlU8rfWDuYyHwGa2WA8/pcmMHezp2xsVwxrebD/Q9t8Nc5DboieySDpCp4WG4A==}
@@ -1236,6 +1259,9 @@ packages:
   std-env@3.10.0:
     resolution: {integrity: sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg==}
 
+  strnum@1.1.2:
+    resolution: {integrity: sha512-vrN+B7DBIoTTZjnPNewwhx6cBA/H+IS7rfW68n7XxC1y7uoiGQBxaKzqucGUgavX15dJgiGztLJ8vxuEzwqBdA==}
+
   thread-stream@4.2.0:
     resolution: {integrity: sha512-e2zZ96wSChazBsbENf/Pcm/4swHt2cEKQ92rhUjkL9GCKiTDJIaTBenjE/m9DXi0QBmTMDkFDdOomUy20A1tDQ==}
     engines: {node: '>=20'}
@@ -1352,6 +1378,8 @@ packages:
 snapshots:
 
   '@drizzle-team/brocli@0.10.2': {}
+
+  '@electric-sql/pglite@0.2.17': {}
 
   '@esbuild-kit/core-utils@3.3.2':
     dependencies:
@@ -1851,8 +1879,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.38.4(postgres@3.4.9):
+  drizzle-orm@0.38.4(@electric-sql/pglite@0.2.17)(postgres@3.4.9):
     optionalDependencies:
+      '@electric-sql/pglite': 0.2.17
       postgres: 3.4.9
 
   env-paths@3.0.0: {}
@@ -1997,6 +2026,10 @@ snapshots:
 
   fast-uri@3.1.3: {}
 
+  fast-xml-parser@4.5.7:
+    dependencies:
+      strnum: 1.1.2
+
   fastify@5.10.0:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
@@ -2046,6 +2079,8 @@ snapshots:
   ipaddr.js@2.4.0: {}
 
   isexe@3.1.5: {}
+
+  jose@5.10.0: {}
 
   json-schema-ref-resolver@3.0.0:
     dependencies:
@@ -2190,6 +2225,8 @@ snapshots:
   stackback@0.0.2: {}
 
   std-env@3.10.0: {}
+
+  strnum@1.1.2: {}
 
   thread-stream@4.2.0:
     dependencies:

@@ -8,6 +8,36 @@ Newest entries at the top.
 
 ---
 
+## 2026-07-06 — Phases 1a–2c implemented
+
+- **Spec:** `docs/SPEC.md` was authored from the Prompt Pack (marked as derived) so the
+  build could proceed without the canonical `brip-v1-architecture-spec.md`. It pins the
+  data model and API shapes the code conforms to; reconcile when the canonical spec lands.
+- **Testing without Docker:** tests run against **pglite** (real Postgres 16 compiled to
+  WASM) via a per-test fresh DB with migrations applied; runtime uses `postgres.js` over
+  `DATABASE_URL`. The DB schema lives in one shared `db/schema.ts` (drizzle-kit needs the
+  whole graph; cross-module FKs are data, not service coupling — modules still call each
+  other only through exported services).
+- **Audit port:** modules that emit events depend on a small `Auditor` interface
+  (`shared/audit-port.ts`), not on the audit module, preserving isolation. `appendEntry`
+  runs in a serializable transaction so `prev_hash` can't fork under concurrency.
+- **Crypto:** ES256 JWS via `jose` only; SHA-256 via `node:crypto`. `canonicalJson` is a
+  deterministic (sorted-key) serializer — not a primitive. No hand-rolled crypto.
+- **Keys:** `KeyProvider` with `LocalKeyProvider` (dev, ephemeral or PKCS8 from env) and a
+  `KmsKeyProvider` stub (throws NotImplemented). Private keys never touch the DB.
+- **Money:** RSL pricing parsed to integer minor units by currency exponent; never floats.
+- **Middleware (2c):** `@brip/middleware-node` is intentionally standalone — it verifies
+  tokens with its own `jose` usage and does not import `@brip/core`. Reporting is
+  fire-and-forget and cannot block or fail the publisher response.
+- **CLI (2b):** `brip-cli audit verify` re-implements hashing/Merkle independently so a
+  proof is checked without trusting the server's code.
+- **Verified:** 34 tests green (core 23, middleware 6, cli 5); full end-to-end flow, audit
+  tamper-detection, and offline token verification all covered.
+- **Not yet built:** Phase 3 (certificates + regulator export) and Phase 4 (metering +
+  Stripe Connect).
+
+---
+
 ## 2026-07-06 — Repo bootstrap
 - Established the pnpm monorepo per the Prompt Pack §1: `packages/{core,middleware-node,cli}`,
   `docs/`, `infra/`. Stack locked to Fastify + Drizzle + Postgres 16 + Vitest on Node 22
